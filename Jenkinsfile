@@ -8,6 +8,13 @@ pipeline {
                 git branch: 'main', 
                     url: 'https://github.com/k-bc/CrudEtudiant'
             }
+            
+        }
+        stage('Build') {
+            steps {
+              sh 'mvn compile'
+            }
+            
         }
     }
 }

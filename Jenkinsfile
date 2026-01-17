@@ -6,7 +6,7 @@ pipeline {
             steps {
                 // Récupérer le code depuis GitHub
                 git branch: 'main', 
-                    url: 'https://github.com/k-bc/CrudEtudiant',
+                    url: 'https://github.com/k-bc/CrudEtudiant'
             }
         }
     }

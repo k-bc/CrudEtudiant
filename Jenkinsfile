@@ -24,7 +24,7 @@ pipeline {
                       -Dsonar.projectKey=CrudEtudiant \
                       -Dsonar.projectName=CrudEtudiant \
                       -Dsonar.host.url=http://localhost:9000 \
-                      -Dsonar.login=${sonar_token}
+                      -Dsonar.login=$sonar_token
                     '''
                 }
             }

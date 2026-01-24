@@ -16,6 +16,18 @@ pipeline {
             }
             
         }
+
+       steps {
+                withSonarQubeEnv("${SONARQUBE_ENV}") {
+                    sh '''
+                    mvn sonar:sonar \
+                      -Dsonar.projectKey=CrudEtudiant \
+                      -Dsonar.projectName=CrudEtudiant \
+                      -Dsonar.host.url=http://localhost:9000 \
+                      -Dsonar.login=${squ_f89912bf7ffec7b07aa45d3b6731e3f299989ea9}
+                    '''
+                }
+            }
     }
 }
 

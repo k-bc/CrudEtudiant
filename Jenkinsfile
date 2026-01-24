@@ -17,14 +17,17 @@ pipeline {
             
         }
 
-       steps {
-                withSonarQubeEnv("${SONARQUBE_ENV}") {
+       stage("sonarqube") {
+           environement {
+            SONAR_TOKEN = credentials('sonar-token')
+           }
+                steps {
                     sh '''
                     mvn sonar:sonar \
                       -Dsonar.projectKey=CrudEtudiant \
                       -Dsonar.projectName=CrudEtudiant \
                       -Dsonar.host.url=http://localhost:9000 \
-                      -Dsonar.login=$sonar_token
+                      -Dsonar.login=$SONAR_TOKEN
                     '''
                 }
             }

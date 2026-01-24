@@ -18,8 +18,8 @@ pipeline {
         }
 
        stage("sonarqube") {
-           environement {
-            SONAR_TOKEN = credentials('jenkins-token')
+           environment {
+            SONAR_TOKEN = credentials('squ_f89912bf7ffec7b07aa45d3b6731e3f299989ea9')
            }
                 steps {
                     sh '''
@@ -27,7 +27,7 @@ pipeline {
                       -Dsonar.projectKey=CrudEtudiant \
                       -Dsonar.projectName=CrudEtudiant \
                       -Dsonar.host.url=http://localhost:9000 \
-                      -Dsonar.login=$SONAR_TOKEN
+                      -Dsonar.login=${SONAR_TOKEN}
                     '''
                 }
             }

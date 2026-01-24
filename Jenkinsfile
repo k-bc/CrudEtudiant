@@ -21,17 +21,12 @@ pipeline {
             
         }
 
-       stage("sonarqube") {
-                steps {
-                    sh '''
-                    mvn sonar:sonar \
-                      -Dsonar.projectKey=CrudEtudiant \
-                      -Dsonar.projectName=CrudEtudiant \
-                      -Dsonar.host.url=http://localhost:9000 \
-                      -Dsonar.login=${SONAR_TOKEN}
-                    '''
-                }
+       stage('SONARQUBE') {
+            steps {
+		    withSonarQubeEnv('SonarQube') {
+		    sh 'mvn sonar:sonar'
+		}
             }
+        }        
     }
 }
-

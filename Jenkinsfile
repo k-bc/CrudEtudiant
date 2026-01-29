@@ -56,54 +56,13 @@ pipeline {
                 echo '✓ Résultats archivés'
             }
         }
-
+        
         stage('SONARQUBE') {
             steps {
-                echo '========== ÉTAPE SONARQUBE =========='
-                withSonarQubeEnv('SonarQube') {
-                    sh 'mvn sonar:sonar'
-                }
-                echo '✓ Analyse SonarQube complétée'
+		    withSonarQubeEnv('SonarQube') {
+		    sh 'mvn sonar:sonar'
+		}
             }
         }        
-    }
-
-    post {
-        always {
-            echo '========== RÉSUMÉ DU BUILD =========='
-            echo "Build Number: ${BUILD_NUMBER}"
-            echo "Build Status: ${currentBuild.result}"
-
-            // Publier les résultats des tests
-            junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true
-
-            // Publier le rapport de couverture
-            publishHTML(
-                reportDir: 'target/site/jacoco',
-                reportFiles: 'index.html',
-                reportName: 'Rapport de Couverture JaCoCo',
-                keepAll: true,
-                alwaysLinkToLastBuild: true
-            )
-
-            echo '========== FIN DU BUILD =========='
-        }
-
-        success {
-            echo '✓ PIPELINE RÉUSSIE'
-        }
-
-        failure {
-            echo '❌ PIPELINE ÉCHOUÉE'
-            echo 'Consultez les logs ci-dessus pour les détails'
-        }
-
-        unstable {
-            echo '⚠️ PIPELINE INSTABLE'
-        }
-
-        cleanup {
-            deleteDir()
-        }
     }
 }

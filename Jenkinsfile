@@ -20,6 +20,12 @@ pipeline {
                 sh 'mvn compile'
             }
         }
+
+		stage('TESTS') {
+            steps {
+                sh 'mvn test'
+            }
+        }
         
         stage('SONARQUBE') {
             steps {

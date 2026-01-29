@@ -73,37 +73,62 @@ pipeline {
             echo '========== RÉSUMÉ DU BUILD =========='
             echo "Build Number: ${BUILD_NUMBER}"
             echo "Build Status: ${currentBuild.result}"
+            echo ""
 
-            // Publier les résultats des tests
-            junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true
+            // Publier les résultats des tests (IMPORTANT)
+            junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true, keepLongStdio: true
 
-            // Publier le rapport de couverture
-            publishHTML(
-                reportDir: 'target/site/jacoco',
-                reportFiles: 'index.html',
-                reportName: 'Rapport de Couverture JaCoCo',
-                keepAll: true,
-                alwaysLinkToLastBuild: true
-            )
+            // Publier le rapport de couverture si disponible
+            script {
+                if (fileExists('target/site/jacoco/index.html')) {
+                    publishHTML(
+                        reportDir: 'target/site/jacoco',
+                        reportFiles: 'index.html',
+                        reportName: 'Rapport de Couverture JaCoCo',
+                        keepAll: true,
+                        alwaysLinkToLastBuild: true
+                    )
+                    echo '✓ Rapport JaCoCo publié'
+                }
+            }
+
+            // Afficher le résumé des tests
+            sh '''
+                echo ""
+                echo "========== RÉSUMÉ DES TESTS =========="
+                if [ -d "target/surefire-reports" ]; then
+                    TEST_COUNT=$(find target/surefire-reports -name "TEST-*.xml" | wc -l)
+                    echo "Fichiers de test générés: $TEST_COUNT"
+
+                    # Compter les tests réussis
+                    if [ -f "target/surefire-reports/TEST-*.xml" ]; then
+                        grep -h "tests=" target/surefire-reports/TEST-*.xml 2>/dev/null | head -1 || echo "Tests exécutés"
+                    fi
+                else
+                    echo "⚠️ Aucun rapport de test disponible"
+                fi
+            '''
 
             echo '========== FIN DU BUILD =========='
         }
 
         success {
-            echo '✓ PIPELINE RÉUSSIE'
+            echo '✓ BUILD RÉUSSI - Tous les tests sont passés'
         }
 
         failure {
-            echo '❌ PIPELINE ÉCHOUÉE'
-            echo 'Consultez les logs ci-dessus pour les détails'
+            echo '❌ BUILD ÉCHOUÉ - Vérifiez les logs ci-dessus'
+            echo 'Consultez target/surefire-reports/ pour les détails'
         }
 
         unstable {
-            echo '⚠️ PIPELINE INSTABLE'
+            echo '⚠️ BUILD INSTABLE - Certains tests ont échoué'
         }
 
         cleanup {
-            deleteDir()
+            echo '🧹 Nettoyage des ressources...'
+            // Ne pas supprimer le répertoire - garder les rapports
+            sh 'rm -rf target/surefire-reports/*.xml || true'
         }
     }
 }

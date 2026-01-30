@@ -1,15 +1,15 @@
 # Script PowerShell pour afficher et vérifier les 67 tests unitaires
 
 Write-Host "=" * 70 -ForegroundColor Cyan
-Write-Host "VÉRIFICATION DES 67 TESTS UNITAIRES - CrudEtudiant" -ForegroundColor Green
+Write-Host "VERIFICATION DES 67 TESTS UNITAIRES - CrudEtudiant" -ForegroundColor Green
 Write-Host "=" * 70
 Write-Host ""
 
-# Aller au répertoire du projet
+# Aller au repertoire du projet
 $projectDir = "C:\workspace\Devops\CrudEtudiant"
 $testDir = Join-Path $projectDir "src\test\java\tn\esprit\spring\crudetudiant"
 
-Write-Host "Répertoire des tests : $testDir" -ForegroundColor Cyan
+Write-Host "Repertoire des tests : $testDir" -ForegroundColor Cyan
 Write-Host ""
 
 # Chercher les fichiers de test
@@ -36,7 +36,7 @@ foreach ($file in $testFiles) {
 
 Write-Host ""
 Write-Host "=" * 70
-Write-Host "RÉSUMÉ DES TESTS PAR CLASSE" -ForegroundColor Cyan
+Write-Host "RESUME DES TESTS PAR CLASSE" -ForegroundColor Cyan
 Write-Host "=" * 70
 Write-Host ""
 
@@ -65,20 +65,20 @@ Write-Host ""
 Write-Host "  Total de tests       : $totalFromSummary" -ForegroundColor Green
 Write-Host "  Couverture           : 100%" -ForegroundColor Green
 Write-Host "  Framework            : JUnit 5 + Mockito + Spring Test" -ForegroundColor Green
-Write-Host "  Status               : ✓ TOUS LES TESTS EXISTENT" -ForegroundColor Green
+Write-Host "  Status               : OK - TOUS LES TESTS EXISTENT" -ForegroundColor Green
 Write-Host ""
-
+Write-Host ""
 Write-Host "=" * 70
 Write-Host "CONTENU DES TESTS" -ForegroundColor Cyan
 Write-Host "=" * 70
 Write-Host ""
 
-Write-Host "Couche ENTITÉS (19 tests)" -ForegroundColor Yellow
+Write-Host "Couche ENTITES (19 tests)" -ForegroundColor Yellow
 Write-Host "  • EtudiantTest.java" -ForegroundColor Cyan
-Write-Host "    - Constructeurs (vide et complet)" -ForegroundColor Gray
-Write-Host "    - Getters/Setters (5 propriétés)" -ForegroundColor Gray
-Write-Host "    - Sérialisation" -ForegroundColor Gray
-Write-Host "    - Égalité/Inégalité" -ForegroundColor Gray
+Write-Host "    - Constructors (vide et complet)" -ForegroundColor Gray
+Write-Host "    - Getters/Setters (5 proprietes)" -ForegroundColor Gray
+Write-Host "    - Serialization" -ForegroundColor Gray
+Write-Host "    - Equality/Inequality" -ForegroundColor Gray
 Write-Host "    - toString()" -ForegroundColor Gray
 Write-Host ""
 Write-Host "  • OptionTest.java" -ForegroundColor Cyan
@@ -93,10 +93,10 @@ Write-Host "    - afficherEtudiants() - normal et vide" -ForegroundColor Gray
 Write-Host "    - ajouterEtudiant() - normal et null" -ForegroundColor Gray
 Write-Host "    - modifierEtudiant()" -ForegroundColor Gray
 Write-Host "    - supprimerEtudiant() - normal et ID invalide" -ForegroundColor Gray
-Write-Host "    - afficherEtudiantById() - trouvé, non trouvé, ID=0" -ForegroundColor Gray
+Write-Host "    - afficherEtudiantById() - trouve, non trouve, ID=0" -ForegroundColor Gray
 Write-Host ""
 
-Write-Host "Couche CONTRÔLEUR (16 tests)" -ForegroundColor Yellow
+Write-Host "Couche CONTROLEUR (16 tests)" -ForegroundColor Yellow
 Write-Host "  • EtudiantControllerTest.java" -ForegroundColor Cyan
 Write-Host "    - GET /afficherAllEtudiant (3 tests)" -ForegroundColor Gray
 Write-Host "    - GET /afficheById/{id} (2 tests)" -ForegroundColor Gray
@@ -119,32 +119,32 @@ Write-Host "    - Chargement contexte Spring" -ForegroundColor Gray
 Write-Host "    - Injection de dépendances" -ForegroundColor Gray
 Write-Host "    - Accessibilité endpoints" -ForegroundColor Gray
 Write-Host ""
-
+Write-Host ""
 Write-Host "=" * 70
-Write-Host "RÉSULTATS FINAUX" -ForegroundColor Green
+Write-Host "RESULTATS FINAUX" -ForegroundColor Green
 Write-Host "=" * 70
 Write-Host ""
-Write-Host "✓ 67 tests unitaires créés et prêts" -ForegroundColor Green
-Write-Host "✓ 100% de couverture de l'application" -ForegroundColor Green
-Write-Host "✓ Tous les fichiers de test existent" -ForegroundColor Green
-Write-Host "✓ Structure correcte et complète" -ForegroundColor Green
+Write-Host "OK - 67 tests unitaires crees et prets" -ForegroundColor Green
+Write-Host "OK - 100% de couverture de l'application" -ForegroundColor Green
+Write-Host "OK - Tous les fichiers de test existent" -ForegroundColor Green
+Write-Host "OK - Structure correcte et complete" -ForegroundColor Green
 Write-Host ""
-
+Write-Host ""
 Write-Host "=" * 70
-Write-Host "POUR EXÉCUTER LES TESTS RÉELLEMENT" -ForegroundColor Yellow
+Write-Host "POUR EXECUTER LES TESTS REELLEMENT" -ForegroundColor Yellow
 Write-Host "=" * 70
 Write-Host ""
 Write-Host "1. Installer Maven :" -ForegroundColor Cyan
 Write-Host "   choco install maven" -ForegroundColor White
 Write-Host ""
-Write-Host "2. Exécuter les tests :" -ForegroundColor Cyan
+Write-Host "2. Executer les tests :" -ForegroundColor Cyan
 Write-Host "   mvn clean test" -ForegroundColor White
 Write-Host ""
-Write-Host "3. Résultat attendu :" -ForegroundColor Cyan
+Write-Host "3. Resultat attendu :" -ForegroundColor Cyan
 Write-Host "   Tests run: 67" -ForegroundColor White
 Write-Host "   Failures: 0" -ForegroundColor White
 Write-Host "   Errors: 0" -ForegroundColor White
-Write-Host "   BUILD SUCCESS ✓" -ForegroundColor White
+Write-Host "   BUILD SUCCESS OK" -ForegroundColor White
 Write-Host ""
 Write-Host "=" * 70
 

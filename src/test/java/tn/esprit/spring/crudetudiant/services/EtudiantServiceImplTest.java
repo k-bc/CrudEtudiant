@@ -12,11 +12,13 @@ import tn.esprit.spring.crudetudiant.entities.Option;
 import tn.esprit.spring.crudetudiant.repository.EtudiantRepository;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Tests pour le service EtudiantServiceImpl")
@@ -59,7 +61,7 @@ class EtudiantServiceImplTest {
     @DisplayName("Tester afficherEtudiants - doit retourner une liste vide")
     void testAfficherEtudiants_EmptyList() {
         // Arrangement
-        when(etudiantRepository.findAll()).thenReturn(Arrays.asList());
+        when(etudiantRepository.findAll()).thenReturn(Collections.emptyList());
 
         // Action
         List<Etudiant> resultat = etudiantService.afficherEtudiants();
@@ -90,7 +92,7 @@ class EtudiantServiceImplTest {
     @DisplayName("Tester ajouterEtudiant avec null")
     void testAjouterEtudiant_WithNull() {
         // Arrangement
-        when(etudiantRepository.save(null)).thenReturn(null);
+        when(etudiantRepository.save(any(Etudiant.class))).thenReturn(null);
 
         // Action & Assertion
         assertDoesNotThrow(() -> etudiantService.ajouterEtudiant(null),

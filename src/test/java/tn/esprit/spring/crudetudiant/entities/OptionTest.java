@@ -38,7 +38,7 @@ class OptionTest {
     @Test
     @DisplayName("Tester que toutes les options sont distinctes")
     void testOptionsAreDistinct() {
-        Option[] options = Option.values();
+        assertEquals(3, Option.values().length, "Il doit y avoir 3 options");
         assertNotEquals(Option.TWIN, Option.SAE, "TWIN et SAE ne doivent pas être égaux");
         assertNotEquals(Option.TWIN, Option.DS, "TWIN et DS ne doivent pas être égaux");
         assertNotEquals(Option.SAE, Option.DS, "SAE et DS ne doivent pas être égaux");
@@ -48,6 +48,7 @@ class OptionTest {
     @DisplayName("Tester values() retourne toutes les options")
     void testValuesMethod() {
         Option[] options = Option.values();
+        assertEquals(3, options.length, "Il doit y avoir 3 options");
         assertTrue(contains(options, Option.TWIN), "TWIN doit être dans values()");
         assertTrue(contains(options, Option.SAE), "SAE doit être dans values()");
         assertTrue(contains(options, Option.DS), "DS doit être dans values()");

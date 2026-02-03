@@ -29,8 +29,15 @@ class EtudiantRepositoryUnitTest {
     @Test
     @DisplayName("Le repository doit étendre JpaRepository")
     void testRepositoryExtendsJpaRepository() {
-        assertTrue(org.springframework.data.jpa.repository.JpaRepository.class
-                .isAssignableFrom(EtudiantRepository.class),
+        Class<?>[] interfaces = EtudiantRepository.class.getInterfaces();
+        boolean extendsJpaRepository = false;
+        for (Class<?> iface : interfaces) {
+            if (iface.getName().contains("JpaRepository")) {
+                extendsJpaRepository = true;
+                break;
+            }
+        }
+        assertTrue(extendsJpaRepository,
                 "EtudiantRepository doit étendre JpaRepository");
     }
 

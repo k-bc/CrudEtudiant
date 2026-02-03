@@ -2,10 +2,7 @@ package tn.esprit.spring.crudetudiant.entities;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 @Entity
 @Getter
@@ -20,6 +17,7 @@ public class Etudiant implements Serializable {
     private Long idEtudiant;
     private String nomEtudiant;
     private String prenomEtudiant;
+    @Enumerated(EnumType.ORDINAL)
     private Option opt;
 
 

@@ -1,0 +1,5 @@
+tn\esprit\spring\crudetudiant\CrudEtudiantApplicationTest.class
+tn\esprit\spring\crudetudiant\repository\EtudiantRepositoryUnitTest.class
+tn\esprit\spring\crudetudiant\services\IEtudiantTest.class
+tn\esprit\spring\crudetudiant\controllers\EtudiantControllerUnitTest.class
+tn\esprit\spring\crudetudiant\entities\EtudiantEntityTest.class

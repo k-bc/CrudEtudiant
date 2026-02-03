@@ -92,7 +92,7 @@ class EtudiantServiceImplTest {
     @DisplayName("Tester ajouterEtudiant avec null")
     void testAjouterEtudiant_WithNull() {
         // Arrangement
-        when(etudiantRepository.save(null)).thenReturn(null);
+        when(etudiantRepository.save(any())).thenReturn(null);
 
         // Action & Assertion
         assertDoesNotThrow(() -> {
@@ -196,6 +196,111 @@ class EtudiantServiceImplTest {
     @DisplayName("Tester que le repository est injecté correctement")
     void testRepositoryInjection() {
         assertNotNull(etudiantService, "Le service ne doit pas être null");
+    }
+
+    @Test
+    @DisplayName("Tester afficherEtudiants avec des données multiples")
+    void testAfficherEtudiants_MultipleSutudents() {
+        // Arrangement
+        Etudiant etudiant3 = new Etudiant(3L, "Bernard", "Claude", Option.DS);
+        List<Etudiant> etudiants = Arrays.asList(etudiant1, etudiant2, etudiant3);
+        when(etudiantRepository.findAll()).thenReturn(etudiants);
+
+        // Action
+        List<Etudiant> resultat = etudiantService.afficherEtudiants();
+
+        // Assertion
+        assertEquals(3, resultat.size(), "La liste doit contenir 3 étudiants");
+        verify(etudiantRepository, times(1)).findAll();
+    }
+
+    @Test
+    @DisplayName("Tester ajouterEtudiant avec différentes options")
+    void testAjouterEtudiant_DifferentOptions() {
+        // Test avec option DS
+        Etudiant etudiantDS = new Etudiant(1L, "Test", "User", Option.DS);
+        when(etudiantRepository.save(etudiantDS)).thenReturn(etudiantDS);
+
+        Etudiant resultat = etudiantService.ajouterEtudiant(etudiantDS);
+
+        assertEquals(Option.DS, resultat.getOpt(), "L'option doit être DS");
+        verify(etudiantRepository, times(1)).save(etudiantDS);
+    }
+
+    @Test
+    @DisplayName("Tester modifierEtudiant avec plusieurs modifications")
+    void testModifierEtudiant_MultipleChanges() {
+        // Arrangement
+        Etudiant etudiantModifie = new Etudiant(1L, "NouveauNom", "NouveauPrenom", Option.SAE);
+        when(etudiantRepository.save(etudiantModifie)).thenReturn(etudiantModifie);
+
+        // Action
+        Etudiant resultat = etudiantService.modifierEtudiant(etudiantModifie);
+
+        // Assertion
+        assertEquals("NouveauNom", resultat.getNomEtudiant(), "Le nom doit être modifié");
+        assertEquals("NouveauPrenom", resultat.getPrenomEtudiant(), "Le prénom doit être modifié");
+        assertEquals(Option.SAE, resultat.getOpt(), "L'option doit être modifiée");
+        verify(etudiantRepository, times(1)).save(etudiantModifie);
+    }
+
+    @Test
+    @DisplayName("Tester supprimerEtudiant avec différents IDs")
+    void testSupprimerEtudiant_DifferentIds() {
+        // Test avec différents IDs
+        for (long idValue = 1L; idValue <= 3L; idValue++) {
+            final long id = idValue;
+            doNothing().when(etudiantRepository).deleteById(id);
+
+            assertDoesNotThrow(() -> etudiantService.supprimerEtudiant(id),
+                    "La suppression avec l'ID " + id + " ne doit pas lever d'exception");
+
+            verify(etudiantRepository, times(1)).deleteById(id);
+        }
+    }
+
+    @Test
+    @DisplayName("Tester afficherEtudiantById avec plusieurs IDs")
+    void testAfficherEtudiantById_MultipleIds() {
+        // Test ID 1
+        when(etudiantRepository.findById(1L)).thenReturn(Optional.of(etudiant1));
+        Etudiant resultat1 = etudiantService.afficherEtudiantById(1L);
+        assertEquals("Dupont", resultat1.getNomEtudiant(), "Le nom doit être Dupont");
+
+        // Test ID 2
+        when(etudiantRepository.findById(2L)).thenReturn(Optional.of(etudiant2));
+        Etudiant resultat2 = etudiantService.afficherEtudiantById(2L);
+        assertEquals("Martin", resultat2.getNomEtudiant(), "Le nom doit être Martin");
+    }
+
+    @Test
+    @DisplayName("Tester que le service utilise bien le repository")
+    void testServiceUsesRepository() {
+        // Vérifier que afficherEtudiants appelle le repository
+        when(etudiantRepository.findAll()).thenReturn(Collections.singletonList(etudiant1));
+        etudiantService.afficherEtudiants();
+        verify(etudiantRepository).findAll();
+
+        // Vérifier que ajouterEtudiant appelle le repository
+        when(etudiantRepository.save(etudiant2)).thenReturn(etudiant2);
+        etudiantService.ajouterEtudiant(etudiant2);
+        verify(etudiantRepository).save(etudiant2);
+
+        // Vérifier que supprimerEtudiant appelle le repository
+        doNothing().when(etudiantRepository).deleteById(1L);
+        etudiantService.supprimerEtudiant(1L);
+        verify(etudiantRepository).deleteById(1L);
+    }
+
+    @Test
+    @DisplayName("Tester les getters du service")
+    void testServiceGetters() {
+        assertNotNull(etudiantService, "Le service ne doit pas être null");
+        // Vérifier que les appels du service fonctionnent
+        when(etudiantRepository.findAll()).thenReturn(Collections.emptyList());
+        List<Etudiant> result = etudiantService.afficherEtudiants();
+        assertNotNull(result, "Le résultat ne doit pas être null");
+        assertTrue(result.isEmpty(), "La liste doit être vide");
     }
 }
 

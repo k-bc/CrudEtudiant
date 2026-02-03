@@ -1,0 +1,6 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+crudEtudiant,tn.esprit.spring.crudetudiant,CrudEtudiantApplication,5,3,0,0,2,1,1,1,1,1
+crudEtudiant,tn.esprit.spring.crudetudiant.entities,Option,0,21,0,0,0,2,0,1,0,1
+crudEtudiant,tn.esprit.spring.crudetudiant.entities,Etudiant,26,201,19,19,0,9,15,18,0,14
+crudEtudiant,tn.esprit.spring.crudetudiant.controllers,EtudiantController,0,32,0,0,0,7,0,6,0,6
+crudEtudiant,tn.esprit.spring.crudetudiant.services,EtudiantServiceImpl,0,36,0,0,0,7,0,6,0,6

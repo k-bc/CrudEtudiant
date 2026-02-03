@@ -113,5 +113,95 @@ class EtudiantTest {
 
         assertNotEquals(etudiant1, etudiant2, "Deux etudiants avec des donnees differentes ne doivent pas etre egaux");
     }
+
+    @Test
+    @DisplayName("Tester le hashCode de l'entité Etudiant")
+    void testEtudiantHashCode() {
+        Etudiant etudiant1 = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
+        Etudiant etudiant2 = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
+
+        assertEquals(etudiant1.hashCode(), etudiant2.hashCode(),
+                "Les hashCode des deux etudiants doivent être égaux");
+    }
+
+    @Test
+    @DisplayName("Tester le getter et setter pour chaque attribut")
+    void testAllGettersAndSetters() {
+        Etudiant etudiant = new Etudiant();
+
+        // Tester ID
+        etudiant.setIdEtudiant(10L);
+        assertEquals(10L, etudiant.getIdEtudiant());
+
+        // Tester Nom
+        etudiant.setNomEtudiant("Durand");
+        assertEquals("Durand", etudiant.getNomEtudiant());
+
+        // Tester Prenom
+        etudiant.setPrenomEtudiant("Marie");
+        assertEquals("Marie", etudiant.getPrenomEtudiant());
+
+        // Tester Option
+        etudiant.setOpt(Option.SAE);
+        assertEquals(Option.SAE, etudiant.getOpt());
+    }
+
+    @Test
+    @DisplayName("Tester la création avec tous les constructeurs")
+    void testAllConstructors() {
+        // Constructeur sans arguments
+        Etudiant etudiant1 = new Etudiant();
+        assertNotNull(etudiant1);
+
+        // Constructeur avec tous les arguments
+        Etudiant etudiant2 = new Etudiant(1L, "Test", "User", Option.TWIN);
+        assertEquals(1L, etudiant2.getIdEtudiant());
+        assertEquals("Test", etudiant2.getNomEtudiant());
+        assertEquals("User", etudiant2.getPrenomEtudiant());
+        assertEquals(Option.TWIN, etudiant2.getOpt());
+    }
+
+    @Test
+    @DisplayName("Tester que Etudiant implémente Serializable")
+    void testEtudiantSerializable() {
+        Etudiant etudiant = new Etudiant(1L, "Test", "User", Option.TWIN);
+        assertTrue(etudiant instanceof java.io.Serializable,
+                "L'entité Etudiant doit implémenter Serializable");
+    }
+
+    @Test
+    @DisplayName("Tester les annotations Lombok")
+    void testLombokAnnotations() {
+        assertTrue(EtudiantTest.class.getClassLoader()
+                .getResource("tn/esprit/spring/crudetudiant/entities/Etudiant.class") != null,
+                "La classe Etudiant doit exister");
+    }
+
+    @Test
+    @DisplayName("Tester la comparaison de deux etudiants modifiés")
+    void testEtudiantEqualityAfterModification() {
+        Etudiant etudiant1 = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
+        Etudiant etudiant2 = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
+
+        assertEquals(etudiant1, etudiant2);
+
+        // Modifier un étudiant
+        etudiant2.setPrenomEtudiant("Pierre");
+        assertNotEquals(etudiant1, etudiant2);
+    }
+
+    @Test
+    @DisplayName("Tester la comparaison avec null")
+    void testEtudiantEqualityWithNull() {
+        Etudiant etudiant = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
+        assertNotEquals(etudiant, null, "Un étudiant ne doit pas être égal à null");
+    }
+
+    @Test
+    @DisplayName("Tester la comparaison avec un objet d'un autre type")
+    void testEtudiantEqualityWithDifferentType() {
+        Etudiant etudiant = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
+        assertNotEquals(etudiant, "String", "Un étudiant ne doit pas être égal à une chaîne");
+    }
 }
 

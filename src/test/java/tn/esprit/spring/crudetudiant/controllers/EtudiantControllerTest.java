@@ -22,6 +22,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @WebMvcTest(EtudiantController.class)
 @DisplayName("Tests pour le controleur EtudiantController")
@@ -228,6 +229,146 @@ class EtudiantControllerTest {
         mockMvc.perform(get("/afficherAllEtudiant"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    @DisplayName("GET /afficheById/{id} - vérifier la structure de la réponse")
+    void testAfficherEtudiantByID_ResponseStructure() throws Exception {
+        // Arrangement
+        when(iEtudiant.afficherEtudiantById(1L)).thenReturn(etudiant1);
+
+        // Action & Assertion
+        mockMvc.perform(get("/afficheById/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.idEtudiant").exists())
+                .andExpect(jsonPath("$.nomEtudiant").exists())
+                .andExpect(jsonPath("$.prenomEtudiant").exists());
+
+        verify(iEtudiant, times(1)).afficherEtudiantById(1L);
+    }
+
+    @Test
+    @DisplayName("POST /ajouterEtudiant - vérifier l'appel du service")
+    void testAjouterEtudiant_VerifyServiceCall() throws Exception {
+        // Arrangement
+        Etudiant nouvelEtudiant = new Etudiant(null, "Test", "User", Option.TWIN);
+        Etudiant etudiantSauvegarde = new Etudiant(5L, "Test", "User", Option.TWIN);
+        when(iEtudiant.ajouterEtudiant(Mockito.any(Etudiant.class))).thenReturn(etudiantSauvegarde);
+
+        // Action & Assertion
+        mockMvc.perform(post("/ajouterEtudiant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(nouvelEtudiant)))
+                .andExpect(status().isOk());
+
+        verify(iEtudiant, times(1)).ajouterEtudiant(Mockito.any(Etudiant.class));
+    }
+
+    @Test
+    @DisplayName("PUT /modifierEtudiant - vérifier l'appel du service")
+    void testModifierEtudiant_VerifyServiceCall() throws Exception {
+        // Arrangement
+        Etudiant etudiantModifie = new Etudiant(1L, "Dupont", "Jean-Marie", Option.DS);
+        when(iEtudiant.modifierEtudiant(Mockito.any(Etudiant.class))).thenReturn(etudiantModifie);
+
+        // Action & Assertion
+        mockMvc.perform(put("/modifierEtudiant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(etudiantModifie)))
+                .andExpect(status().isOk());
+
+        verify(iEtudiant, times(1)).modifierEtudiant(Mockito.any(Etudiant.class));
+    }
+
+    @Test
+    @DisplayName("DELETE /supprimer/{id} - vérifier l'appel du service")
+    void testSupprimerEtudiant_VerifyServiceCall() throws Exception {
+        // Arrangement
+        doNothing().when(iEtudiant).supprimerEtudiant(1L);
+
+        // Action & Assertion
+        mockMvc.perform(delete("/supprimer/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(iEtudiant, times(1)).supprimerEtudiant(1L);
+    }
+
+    @Test
+    @DisplayName("POST /ajouterEtudiant - tester avec différentes options")
+    void testAjouterEtudiant_WithDifferentOptions() throws Exception {
+        // Test avec chaque option
+        Option[] options = {Option.TWIN, Option.SAE, Option.DS};
+
+        for (Option option : options) {
+            Etudiant nouvelEtudiant = new Etudiant(null, "Test", "User", option);
+            Etudiant etudiantSauvegarde = new Etudiant(6L, "Test", "User", option);
+            when(iEtudiant.ajouterEtudiant(Mockito.any(Etudiant.class))).thenReturn(etudiantSauvegarde);
+
+            mockMvc.perform(post("/ajouterEtudiant")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(nouvelEtudiant)))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.opt", is(option.toString())));
+        }
+    }
+
+    @Test
+    @DisplayName("GET /afficherAllEtudiant - tester avec plusieurs étudiants")
+    void testAfficherAllEtudiant_MultipleSudents() throws Exception {
+        // Arrangement
+        Etudiant etudiant3 = new Etudiant(3L, "Bernard", "Claude", Option.DS);
+        List<Etudiant> etudiants = Arrays.asList(etudiant1, etudiant2, etudiant3);
+        when(iEtudiant.afficherEtudiants()).thenReturn(etudiants);
+
+        // Action & Assertion
+        mockMvc.perform(get("/afficherAllEtudiant")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[0].nomEtudiant", is("Dupont")))
+                .andExpect(jsonPath("$[1].nomEtudiant", is("Martin")))
+                .andExpect(jsonPath("$[2].nomEtudiant", is("Bernard")));
+
+        verify(iEtudiant, times(1)).afficherEtudiants();
+    }
+
+    @Test
+    @DisplayName("DELETE /supprimer/{id} - tester avec plusieurs IDs")
+    void testSupprimerEtudiant_MultipleSutudents() throws Exception {
+        // Test avec différents IDs
+        for (long id = 1L; id <= 3L; id++) {
+            doNothing().when(iEtudiant).supprimerEtudiant(id);
+
+            mockMvc.perform(delete("/supprimer/" + id)
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
+
+            verify(iEtudiant, times(1)).supprimerEtudiant(id);
+        }
+    }
+
+    @Test
+    @DisplayName("GET /afficherAllEtudiant - vérifier le contentType JSON")
+    void testAfficherAllEtudiant_JsonContent() throws Exception {
+        // Arrangement
+        when(iEtudiant.afficherEtudiants()).thenReturn(Collections.singletonList(etudiant1));
+
+        // Action & Assertion
+        mockMvc.perform(get("/afficherAllEtudiant"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+        verify(iEtudiant, times(1)).afficherEtudiants();
+    }
+
+    @Test
+    @DisplayName("Vérifier que le contrôleur est bien annoté")
+    void testControllerAnnotations() {
+        assertTrue(EtudiantController.class.isAnnotationPresent(
+                org.springframework.web.bind.annotation.RestController.class),
+                "Le contrôleur doit avoir l'annotation @RestController");
     }
 }
 

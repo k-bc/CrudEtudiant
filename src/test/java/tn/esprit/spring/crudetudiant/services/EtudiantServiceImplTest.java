@@ -92,11 +92,13 @@ class EtudiantServiceImplTest {
     @DisplayName("Tester ajouterEtudiant avec null")
     void testAjouterEtudiant_WithNull() {
         // Arrangement
-        when(etudiantRepository.save(any(Etudiant.class))).thenReturn(null);
+        when(etudiantRepository.save(null)).thenReturn(null);
 
         // Action & Assertion
-        assertDoesNotThrow(() -> etudiantService.ajouterEtudiant(null),
-                "Doit gérer l'ajout d'un étudiant null");
+        assertDoesNotThrow(() -> {
+            Etudiant resultat = etudiantService.ajouterEtudiant(null);
+            assertNull(resultat, "Le résultat doit être null");
+        }, "Doit gérer l'ajout d'un étudiant null");
     }
 
     @Test

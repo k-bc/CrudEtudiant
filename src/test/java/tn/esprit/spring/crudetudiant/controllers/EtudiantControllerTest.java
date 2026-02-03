@@ -3,9 +3,12 @@ package tn.esprit.spring.crudetudiant.controllers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,21 +17,25 @@ import tn.esprit.spring.crudetudiant.entities.Option;
 import tn.esprit.spring.crudetudiant.services.IEtudiant;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
+import org.mockito.Mockito;
 
-@WebMvcTest(EtudiantController.class)
-@DisplayName("Tests pour le contrôleur EtudiantController")
+@SpringBootTest
+@AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
+@DisplayName("Tests pour le controleur EtudiantController")
 class EtudiantControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     private IEtudiant iEtudiant;
 
     @Autowired
@@ -69,7 +76,7 @@ class EtudiantControllerTest {
     @DisplayName("GET /afficherAllEtudiant - doit retourner une liste vide")
     void testAfficherAllEtudiant_EmptyList() throws Exception {
         // Arrangement
-        when(iEtudiant.afficherEtudiants()).thenReturn(Arrays.asList());
+        when(iEtudiant.afficherEtudiants()).thenReturn(Collections.emptyList());
 
         // Action & Assertion
         mockMvc.perform(get("/afficherAllEtudiant")
@@ -113,12 +120,12 @@ class EtudiantControllerTest {
     }
 
     @Test
-    @DisplayName("POST /ajouterEtudiant - doit ajouter un nouvel étudiant")
+    @DisplayName("POST /ajouterEtudiant - doit ajouter un nouvel etudiant")
     void testAjouterEtudiant() throws Exception {
         // Arrangement
         Etudiant nouvelEtudiant = new Etudiant(null, "Thomas", "Luc", Option.DS);
         Etudiant etudiantSauvegarde = new Etudiant(3L, "Thomas", "Luc", Option.DS);
-        when(iEtudiant.ajouterEtudiant(any(Etudiant.class))).thenReturn(etudiantSauvegarde);
+        when(iEtudiant.ajouterEtudiant(Mockito.any(Etudiant.class))).thenReturn(etudiantSauvegarde);
 
         // Action & Assertion
         mockMvc.perform(post("/ajouterEtudiant")
@@ -130,16 +137,16 @@ class EtudiantControllerTest {
                 .andExpect(jsonPath("$.prenomEtudiant", is("Luc")))
                 .andExpect(jsonPath("$.opt", is("DS")));
 
-        verify(iEtudiant, times(1)).ajouterEtudiant(any(Etudiant.class));
+        verify(iEtudiant, times(1)).ajouterEtudiant(Mockito.any(Etudiant.class));
     }
 
     @Test
-    @DisplayName("POST /ajouterEtudiant - doit ajouter un étudiant avec tous les champs")
+    @DisplayName("POST /ajouterEtudiant - doit ajouter un etudiant avec tous les champs")
     void testAjouterEtudiant_Complete() throws Exception {
         // Arrangement
         Etudiant nouvelEtudiant = new Etudiant(null, "Dupont", "Jean", Option.TWIN);
         Etudiant etudiantSauvegarde = new Etudiant(4L, "Dupont", "Jean", Option.TWIN);
-        when(iEtudiant.ajouterEtudiant(any(Etudiant.class))).thenReturn(etudiantSauvegarde);
+        when(iEtudiant.ajouterEtudiant(Mockito.any(Etudiant.class))).thenReturn(etudiantSauvegarde);
 
         // Action & Assertion
         mockMvc.perform(post("/ajouterEtudiant")
@@ -149,15 +156,15 @@ class EtudiantControllerTest {
                 .andExpect(jsonPath("$.idEtudiant", is(4)))
                 .andExpect(jsonPath("$.nomEtudiant", is("Dupont")));
 
-        verify(iEtudiant, times(1)).ajouterEtudiant(any(Etudiant.class));
+        verify(iEtudiant, times(1)).ajouterEtudiant(Mockito.any(Etudiant.class));
     }
 
     @Test
-    @DisplayName("PUT /modifierEtudiant - doit modifier un étudiant existant")
+    @DisplayName("PUT /modifierEtudiant - doit modifier un etudiant existant")
     void testModifierEtudiant() throws Exception {
         // Arrangement
         Etudiant etudiantModifie = new Etudiant(1L, "Dupont", "Jean-Marie", Option.DS);
-        when(iEtudiant.modifierEtudiant(any(Etudiant.class))).thenReturn(etudiantModifie);
+        when(iEtudiant.modifierEtudiant(Mockito.any(Etudiant.class))).thenReturn(etudiantModifie);
 
         // Action & Assertion
         mockMvc.perform(put("/modifierEtudiant")
@@ -169,15 +176,15 @@ class EtudiantControllerTest {
                 .andExpect(jsonPath("$.prenomEtudiant", is("Jean-Marie")))
                 .andExpect(jsonPath("$.opt", is("DS")));
 
-        verify(iEtudiant, times(1)).modifierEtudiant(any(Etudiant.class));
+        verify(iEtudiant, times(1)).modifierEtudiant(Mockito.any(Etudiant.class));
     }
 
     @Test
-    @DisplayName("PUT /modifierEtudiant - doit modifier le prénom d'un étudiant")
+    @DisplayName("PUT /modifierEtudiant - doit modifier le prenom d'un etudiant")
     void testModifierEtudiant_ChangePrenom() throws Exception {
         // Arrangement
         Etudiant etudiantModifie = new Etudiant(2L, "Martin", "Paul", Option.SAE);
-        when(iEtudiant.modifierEtudiant(any(Etudiant.class))).thenReturn(etudiantModifie);
+        when(iEtudiant.modifierEtudiant(Mockito.any(Etudiant.class))).thenReturn(etudiantModifie);
 
         // Action & Assertion
         mockMvc.perform(put("/modifierEtudiant")
@@ -186,7 +193,7 @@ class EtudiantControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.prenomEtudiant", is("Paul")));
 
-        verify(iEtudiant, times(1)).modifierEtudiant(any(Etudiant.class));
+        verify(iEtudiant, times(1)).modifierEtudiant(Mockito.any(Etudiant.class));
     }
 
     @Test
@@ -221,7 +228,7 @@ class EtudiantControllerTest {
     @DisplayName("GET /afficherAllEtudiant - vérifier le type de contenu")
     void testAfficherAllEtudiant_ContentType() throws Exception {
         // Arrangement
-        when(iEtudiant.afficherEtudiants()).thenReturn(Arrays.asList(etudiant1));
+        when(iEtudiant.afficherEtudiants()).thenReturn(Collections.singletonList(etudiant1));
 
         // Action & Assertion
         mockMvc.perform(get("/afficherAllEtudiant"))

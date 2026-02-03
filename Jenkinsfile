@@ -106,17 +106,12 @@ pipeline {
             // Publier les resultats des tests
             junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true, keepLongStdio: true
 
-            // Publier le rapport de couverture si disponible
+            // Archiver le rapport de couverture si disponible
             script {
                 if (fileExists('target/site/jacoco/index.html')) {
-                    publishHTML(
-                        reportDir: 'target/site/jacoco',
-                        reportFiles: 'index.html',
-                        reportName: 'Rapport de Couverture JaCoCo',
-                        keepAll: true,
-                        alwaysLinkToLastBuild: true
-                    )
-                    echo '✓ Rapport JaCoCo publie'
+                    archiveArtifacts artifacts: 'target/site/jacoco/**', allowEmptyArchive: true
+                    echo '✓ Rapport JaCoCo archive'
+                    echo 'Le rapport est accessible via "Artifacts" dans la vue du build'
                 }
             }
 
@@ -158,4 +153,5 @@ pipeline {
             sh 'rm -rf target/surefire-reports/*.xml || true'
         }
     }
+
 }

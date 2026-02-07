@@ -93,7 +93,63 @@ pipeline {
                     }
                 }
             }
-        }        
+        }
+
+        stage('DOCKER BUILD') {
+            steps {
+                echo '========== ETAPE DOCKER BUILD =========='
+                script {
+                    try {
+                        sh 'docker build -t yourdockerhubuser/crud-etudiant:latest .'
+                        echo '✓ Image Docker construite avec succes'
+                    } catch (Exception e) {
+                        echo "❌ Erreur lors du build Docker: ${e.message}"
+                        error("Docker build a echoue")
+                    }
+                }
+            }
+        }
+
+        stage('DOCKER PUSH') {
+            steps {
+                echo '========== ETAPE DOCKER PUSH =========='
+                script {
+                    try {
+                        withCredentials([usernamePassword(
+                            credentialsId: 'dockerhub-creds',
+                            usernameVariable: 'DOCKER_USER',
+                            passwordVariable: 'DOCKER_PASS'
+                        )]) {
+                            sh '''
+                              echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                              docker push yourdockerhubuser/crud-etudiant:latest
+                              docker logout
+                            '''
+                        }
+                        echo '✓ Image Docker pushee vers DockerHub'
+                    } catch (Exception e) {
+                        echo "❌ Erreur lors du push Docker: ${e.message}"
+                        error("Docker push a echoue")
+                    }
+                }
+            }
+        }
+
+        stage('DOCKER COMPOSE UP') {
+            steps {
+                echo '========== ETAPE DOCKER COMPOSE UP =========='
+                script {
+                    try {
+                        sh 'docker compose up -d'
+                        echo '✓ Conteneurs demarres avec Docker Compose'
+                        sh 'docker compose ps'
+                    } catch (Exception e) {
+                        echo "❌ Erreur lors du lancement Docker Compose: ${e.message}"
+                        error("Docker compose up a echoue")
+                    }
+                }
+            }
+        }
     }
 
 }

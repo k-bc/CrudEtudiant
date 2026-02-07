@@ -1,18 +1,28 @@
-FROM maven:3.8.1-openjdk-17-slim as build
+# ======= STAGE 1 : BUILD =======
+FROM maven:3.8.6-openjdk-17 AS build
 
 WORKDIR /app
-COPY . /app
+
+# Copier seulement les fichiers Maven d’abord (cache Docker)
+COPY pom.xml .
+RUN mvn -B -q dependency:go-offline
+
+# Copier le code source
+COPY src ./src
+
+# Build sans tests
 RUN mvn clean package -DskipTests
 
-# Étape 2: Créer l'image légère pour l'exécution
+# ======= STAGE 2 : RUN =======
 FROM openjdk:17-jdk-slim
 
 WORKDIR /app
-# Copier le JAR construit de l'étape précédente
-COPY --from=build /app/target/crudEtudiant-0.0.1-SNAPSHOT.jar app.jar
 
-# Port exposé (correspondant à server.port=8089)
+# Copier le JAR généré
+COPY --from=build /app/target/*jar app.jar
+
 EXPOSE 8089
-# Point d'entrée pour lancer l'application
-ENTRYPOINT ["java", "-Xms256m", "-Xmx512m", "-jar", "app.jar"]
+
+ENTRYPOINT ["java","-jar","app.jar"]
+
 

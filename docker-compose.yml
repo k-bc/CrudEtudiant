@@ -14,7 +14,7 @@ services:
       - mysql_data:/var/lib/mysql
 
   springboot-app:
-    image: yourdockerhubuser/crud-etudiant:latest
+    image: khaledkbc/crud-etudiant:latest
     container_name: springboot-app
     depends_on:
       - mysql

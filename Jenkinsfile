@@ -100,7 +100,7 @@ pipeline {
                 echo '========== ETAPE DOCKER BUILD =========='
                 script {
                     try {
-                        sh 'docker build -t yourdockerhubuser/crud-etudiant:latest .'
+                        sh 'docker build -t khaledkbc/crud-etudiant:latest .'
                         echo '✓ Image Docker construite avec succes'
                     } catch (Exception e) {
                         echo "❌ Erreur lors du build Docker: ${e.message}"
@@ -116,13 +116,13 @@ pipeline {
                 script {
                     try {
                         withCredentials([usernamePassword(
-                            credentialsId: 'dockerhub-creds',
+                            credentialsId: 'dockerhubcode',
                             usernameVariable: 'DOCKER_USER',
                             passwordVariable: 'DOCKER_PASS'
                         )]) {
                             sh '''
                               echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                              docker push yourdockerhubuser/crud-etudiant:latest
+                              docker push khaledkbc/crud-etudiant:latest
                               docker logout
                             '''
                         }

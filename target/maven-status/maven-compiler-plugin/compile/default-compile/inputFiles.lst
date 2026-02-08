@@ -4,4 +4,5 @@ C:\workspace\Devops\CrudEtudiant\src\main\java\tn\esprit\spring\crudetudiant\ser
 C:\workspace\Devops\CrudEtudiant\src\main\java\tn\esprit\spring\crudetudiant\entities\Etudiant.java
 C:\workspace\Devops\CrudEtudiant\src\main\java\tn\esprit\spring\crudetudiant\entities\Option.java
 C:\workspace\Devops\CrudEtudiant\src\main\java\tn\esprit\spring\crudetudiant\services\EtudiantServiceImpl.java
+C:\workspace\Devops\CrudEtudiant\src\main\java\tn\esprit\spring\crudetudiant\config\H2CompatibleDialect.java
 C:\workspace\Devops\CrudEtudiant\src\main\java\tn\esprit\spring\crudetudiant\CrudEtudiantApplication.java

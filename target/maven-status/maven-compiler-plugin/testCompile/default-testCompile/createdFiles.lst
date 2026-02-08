@@ -1,11 +1,16 @@
+tn\esprit\spring\crudetudiant\entities\EtudiantTest.class
+tn\esprit\spring\crudetudiant\services\EtudiantServiceImplTest.class
 tn\esprit\spring\crudetudiant\entities\OptionAdvancedTest.class
 tn\esprit\spring\crudetudiant\repository\EtudiantRepositoryUnitTest.class
 tn\esprit\spring\crudetudiant\config\H2CompatibleDialect.class
+tn\esprit\spring\crudetudiant\CrudEtudiantApplicationTests.class
 tn\esprit\spring\crudetudiant\repository\EtudiantRepositoryInterfaceTest.class
 tn\esprit\spring\crudetudiant\services\EtudiantServiceImplEdgeCaseTest.class
+tn\esprit\spring\crudetudiant\entities\OptionTest.class
 tn\esprit\spring\crudetudiant\repository\EtudiantRepositoryIntegrationTest.class
 tn\esprit\spring\crudetudiant\entities\EtudiantEdgeCaseTest.class
 tn\esprit\spring\crudetudiant\entities\EtudiantEntityTest.class
+tn\esprit\spring\crudetudiant\repository\EtudiantRepositoryTest.class
 tn\esprit\spring\crudetudiant\CrudEtudiantApplicationTest.class
 tn\esprit\spring\crudetudiant\services\IEtudiantInterfaceTest.class
 tn\esprit\spring\crudetudiant\services\IEtudiantTest.class
@@ -14,3 +19,4 @@ tn\esprit\spring\crudetudiant\services\EtudiantServiceImplAdvancedTest.class
 tn\esprit\spring\crudetudiant\controllers\EtudiantControllerAdvancedTest.class
 tn\esprit\spring\crudetudiant\CrudEtudiantApplicationIntegrationTest.class
 tn\esprit\spring\crudetudiant\controllers\EtudiantControllerUnitTest.class
+tn\esprit\spring\crudetudiant\controllers\EtudiantControllerTest.class

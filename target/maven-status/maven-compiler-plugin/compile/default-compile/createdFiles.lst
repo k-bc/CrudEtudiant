@@ -1,1 +1,8 @@
+tn\esprit\spring\crudetudiant\CrudEtudiantApplication.class
+tn\esprit\spring\crudetudiant\controllers\EtudiantController.class
+tn\esprit\spring\crudetudiant\repository\EtudiantRepository.class
+tn\esprit\spring\crudetudiant\services\EtudiantServiceImpl.class
 tn\esprit\spring\crudetudiant\config\H2CompatibleDialect.class
+tn\esprit\spring\crudetudiant\entities\Option.class
+tn\esprit\spring\crudetudiant\services\IEtudiant.class
+tn\esprit\spring\crudetudiant\entities\Etudiant.class

@@ -44,7 +44,7 @@ pipeline {
         stage('TEST') {
             steps {
                 echo '========== ETAPE TEST UNITAIRES =========='
-                echo 'Execution de 67 tests unitaires...'
+                echo 'Execution de 220 tests unitaires...'
                 script {
                     def testResult = sh(
                         script: 'mvn test',
@@ -95,24 +95,9 @@ pipeline {
             }
         }
 
-        stage('DOCKER BUILD') {
+        stage('DOCKER BUILD & PUSH') {
             steps {
-                echo '========== ETAPE DOCKER BUILD =========='
-                script {
-                    try {
-                        sh 'docker build -t khaledkbc/crud-etudiant:latest .'
-                        echo '✓ Image Docker construite avec succes'
-                    } catch (Exception e) {
-                        echo "❌ Erreur lors du build Docker: ${e.message}"
-                        error("Docker build a echoue")
-                    }
-                }
-            }
-        }
-
-        stage('DOCKER PUSH') {
-            steps {
-                echo '========== ETAPE DOCKER PUSH =========='
+                echo '========== ETAPE DOCKER BUILD & PUSH =========='
                 script {
                     try {
                         withCredentials([usernamePassword(
@@ -122,14 +107,15 @@ pipeline {
                         )]) {
                             sh '''
                               echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                              docker build -t khaledkbc/crud-etudiant:latest .
                               docker push khaledkbc/crud-etudiant:latest
                               docker logout
                             '''
                         }
-                        echo '✓ Image Docker pushee vers DockerHub'
+                        echo '✓ Image Docker construite et pushee avec succes'
                     } catch (Exception e) {
-                        echo "❌ Erreur lors du push Docker: ${e.message}"
-                        error("Docker push a echoue")
+                        echo "❌ Erreur lors du process Docker: ${e.message}"
+                        error("Docker build ou push a echoue")
                     }
                 }
             }

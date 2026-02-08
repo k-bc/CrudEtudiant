@@ -140,12 +140,19 @@ pipeline {
                 echo '========== ETAPE DOCKER COMPOSE UP =========='
                 script {
                     try {
-                        // Nettoyage préalable pour éviter les conflits
-                        sh 'docker compose down --remove-orphans || true'
+                        // Nettoyage préalable complet (y compris les volumes pour un état propre)
+                        sh 'docker compose down --remove-orphans --volumes || true'
+
+                        // Lancement des conteneurs
                         sh 'docker compose up -d --force-recreate'
+
                         echo '✓ Conteneurs demarres avec Docker Compose'
                         sh 'docker compose ps'
                     } catch (Exception e) {
+                        echo "❌ Erreur detectee lors du deploiement"
+                        echo "Affichage des logs pour diagnostic :"
+                        sh 'docker compose logs mysql'
+                        sh 'docker compose logs springboot-app'
                         error("Docker compose a echoue : ${e.message}")
                     }
                 }

@@ -12,18 +12,25 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   springboot-app:
     image: khaledkbc/crud-etudiant:latest
     container_name: springboot-app
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     ports:
       - "8089:8089"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/CrudEtudiant?createDatabaseIfNotExist=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+    restart: on-failure
 
 volumes:
   mysql_data:

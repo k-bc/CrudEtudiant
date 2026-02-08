@@ -140,12 +140,21 @@ pipeline {
                 echo '========== ETAPE DOCKER COMPOSE UP =========='
                 script {
                     try {
-                        sh 'docker compose up -d'
+                        // Nettoyage préalable pour éviter les conflits, ignore les erreurs si déjà arrêté
+                        sh 'docker compose down --remove-orphans || true'
+                        sh 'docker compose up -d --force-recreate'
                         echo '✓ Conteneurs demarres avec Docker Compose'
                         sh 'docker compose ps'
                     } catch (Exception e) {
                         echo "❌ Erreur lors du lancement Docker Compose: ${e.message}"
-                        error("Docker compose up a echoue")
+                        try {
+                            echo "Tentative de secours avec docker-compose..."
+                            sh 'docker-compose down --remove-orphans || true'
+                            sh 'docker-compose up -d --force-recreate'
+                            echo '✓ Conteneurs demarres avec docker-compose'
+                        } catch (Exception e2) {
+                            error("Docker compose a echoue : ${e2.message}")
+                        }
                     }
                 }
             }

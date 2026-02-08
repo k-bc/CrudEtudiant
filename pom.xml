@@ -15,7 +15,7 @@
     <description>crudEtudiant</description>
     <properties>
         <java.version>1.8</java.version>
-        <skipTests>true</skipTests>
+        <skipTests>false</skipTests>
         <spring-boot.version>2.7.18</spring-boot.version>
     </properties>
 

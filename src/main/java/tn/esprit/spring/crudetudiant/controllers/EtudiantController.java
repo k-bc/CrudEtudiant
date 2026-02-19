@@ -14,8 +14,9 @@ public class EtudiantController {
     IEtudiant iEtudiant;
     @GetMapping("/afficherAllEtudiant")
     public List<Etudiant> afficherAllEtudiant(){
-        return  iEtudiant.afficherEtudiants();
-
+        List<Etudiant> etudiants = iEtudiant.afficherEtudiants();
+        System.out.println("✅ SUCCESS: Récupération de tous les étudiants - " + etudiants.size() + " étudiant(s) trouvé(s)");
+        return etudiants;
     }
     @GetMapping("/afficheById/{id}")
     public Etudiant afficherEtudiantByID(@PathVariable("id") Long id){
@@ -23,7 +24,9 @@ public class EtudiantController {
     }
     @PostMapping("/ajouterEtudiant")
     public Etudiant ajouterEtudiant(@RequestBody  Etudiant e){
-        return iEtudiant.ajouterEtudiant(e);
+        Etudiant etudiantAjoute = iEtudiant.ajouterEtudiant(e);
+        System.out.println("✅ SUCCESS: Étudiant ajouté avec succès - ID: " + etudiantAjoute.getIdEtudiant() + ", Nom: " + etudiantAjoute.getPrenomEtudiant() + " " + etudiantAjoute.getNomEtudiant());
+        return etudiantAjoute;
     }
     @PutMapping("/modifierEtudiant")
     public Etudiant modifierEtudiant(@RequestBody Etudiant e){

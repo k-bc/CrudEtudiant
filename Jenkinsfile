@@ -160,4 +160,56 @@ pipeline {
         }
     }
 
+    post {
+        success {
+            emailext(
+                subject: "✅ SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                🎉 Build réussi !
+
+                Job: ${env.JOB_NAME}
+                Build Number: ${env.BUILD_NUMBER}
+                URL: ${env.BUILD_URL}
+
+                Tout s'est bien passé 🚀
+                """,
+                to: "khaled.benchamekh@gmail.com"
+            )
+        }
+
+        failure {
+            emailext(
+                subject: "❌ FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                🚨 Build échoué !
+
+                Job: ${env.JOB_NAME}
+                Build Number: ${env.BUILD_NUMBER}
+                URL: ${env.BUILD_URL}
+
+                Merci de vérifier les logs.
+                """,
+                to: "khaled.benchamekh@gmail.com"
+            )
+        }
+
+        unstable {
+            emailext(
+                subject: "⚠️ UNSTABLE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                ⚠️ Build instable !
+
+                Job: ${env.JOB_NAME}
+                Build Number: ${env.BUILD_NUMBER}
+                URL: ${env.BUILD_URL}
+                """,
+                to: "khaled.benchamekh@gmail.com"
+            )
+        }
+
+        always {
+            echo "Pipeline terminée."
+        }
+    }
+
 }

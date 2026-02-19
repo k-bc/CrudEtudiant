@@ -8,7 +8,7 @@ Une suite complète de tests unitaires a été développée pour votre applicati
 
 ## 📁 Structure des tests
 
-### 1. **Tests d'entité** - `EtudiantTest.java` (10 tests)
+### 1. ***Tests d'entité*** - `EtudiantTest.java` (10 tests)
 - ✅ Constructeur par défaut
 - ✅ Constructeur avec tous les paramètres
 - ✅ Setters et getters pour chaque champ

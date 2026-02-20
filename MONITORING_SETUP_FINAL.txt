@@ -1,0 +1,100 @@
+================================================================================
+MONITORING PROMETHEUS + GRAFANA - RECAP FINAL
+================================================================================
+
+MODIFICATIONS AU CODE:
+✓ pom.xml:
+  - spring-boot-starter-actuator (PRÉSENT)
+  - micrometer-registry-prometheus (AJOUTÉ)
+  - micrometer-core (AJOUTÉ)
+
+✓ application.properties:
+  management.endpoints.web.exposure.include=health,prometheus
+  management.endpoint.prometheus.enabled=true
+  management.metrics.export.prometheus.enabled=true
+
+================================================================================
+CONTAINERS ACTUELLEMENT SUR LA VM:
+================================================================================
+
+testpipeline-springboot-app-1:8089  → Spring Boot (docker-compose)
+testpipeline-mysql-1:3306           → MySQL (docker-compose)
+sonarqube:9000                       → SonarQube
+Réseau: testpipeline_default
+
+================================================================================
+AVANT DE LANCER MONITORING (À FAIRE):
+================================================================================
+
+1. mvn clean package  (recompiler avec nouvelles dépendances)
+2. Redémarrer Spring Boot via docker-compose
+3. Vérifier: curl http://IP_VM:8089/actuator/prometheus
+
+================================================================================
+LANCER MONITORING SUR LA VM:
+================================================================================
+
+bash ~/monitoring_setup.sh testpipeline_default
+
+Cela va:
+- Créer ~/monitoring
+- Générer prometheus.yml
+- Lancer mysqld-exporter (9104)
+- Lancer prometheus (9090)
+- Lancer grafana (3000)
+- Tous sur le réseau testpipeline_default
+- Tous avec --restart unless-stopped
+
+================================================================================
+ACCÈS SERVICES:
+================================================================================
+
+Prometheus:  http://IP_VM:9090
+             Status → Targets (vérifier que springboot-app est UP)
+
+Grafana:     http://IP_VM:3000
+             Login: admin/admin
+
+Spring Boot: http://IP_VM:8089/actuator/prometheus
+
+================================================================================
+CONFIGURATION GRAFANA:
+================================================================================
+
+1. http://IP_VM:3000 → Login admin/admin
+2. Settings → Data Sources
+3. Add Prometheus
+4. URL: http://prometheus:9090  (PAS localhost, PAS IP)
+5. Save & Test
+6. Import → ID 4701
+7. Voir les dashboards
+
+================================================================================
+TROUBLESHOOTING:
+================================================================================
+
+Si Prometheus targets en DOWN:
+  docker exec -it prometheus sh
+  wget -qO- http://testpipeline-springboot-app-1:8089/actuator/prometheus
+  exit
+
+Si Grafana ne voit pas Prometheus:
+  - Vérifier URL: http://prometheus:9090 (utiliser le nom du container)
+  - Les deux doivent être sur le même réseau Docker
+
+Redémarrage automatique après reboot VM:
+  - --restart unless-stopped fait redémarrer les containers automatiquement
+  - docker ps pour vérifier
+
+================================================================================
+FICHIERS FOURNIS:
+================================================================================
+
+prometheus.yml        → Configuration (à utiliser dans le script)
+monitoring_setup.sh   → Script d'installation unique
+
+C'est tout ce qu'il te faut!
+
+================================================================================
+
+

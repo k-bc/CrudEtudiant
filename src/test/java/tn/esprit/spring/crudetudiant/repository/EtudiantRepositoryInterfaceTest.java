@@ -2,7 +2,6 @@ package tn.esprit.spring.crudetudiant.repository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import tn.esprit.spring.crudetudiant.entities.Etudiant;
 
 import static org.junit.jupiter.api.Assertions.*;
 

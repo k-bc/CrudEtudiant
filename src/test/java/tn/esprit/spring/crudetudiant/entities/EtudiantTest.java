@@ -117,10 +117,10 @@ class EtudiantTest {
     @Test
     @DisplayName("Tester le hashCode de l'entité Etudiant")
     void testEtudiantHashCode() {
-        Etudiant etudiant1 = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
-        Etudiant etudiant2 = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
+        Etudiant newEtudiant1 = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
+        Etudiant newEtudiant2 = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
 
-        assertEquals(etudiant1.hashCode(), etudiant2.hashCode(),
+        assertEquals(newEtudiant1.hashCode(), newEtudiant2.hashCode(),
                 "Les hashCode des deux etudiants doivent être égaux");
     }
 
@@ -172,8 +172,8 @@ class EtudiantTest {
     @Test
     @DisplayName("Tester les annotations Lombok")
     void testLombokAnnotations() {
-        assertTrue(EtudiantTest.class.getClassLoader()
-                .getResource("tn/esprit/spring/crudetudiant/entities/Etudiant.class") != null,
+        assertNotNull(EtudiantTest.class.getClassLoader()
+                .getResource("tn/esprit/spring/crudetudiant/entities/Etudiant.class"),
                 "La classe Etudiant doit exister");
     }
 

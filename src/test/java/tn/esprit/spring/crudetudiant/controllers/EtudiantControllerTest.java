@@ -285,14 +285,14 @@ class EtudiantControllerTest {
     @DisplayName("DELETE /supprimer/{id} - vérifier l'appel du service")
     void testSupprimerEtudiant_VerifyServiceCall() throws Exception {
         // Arrangement
-        doNothing().when(iEtudiant).supprimerEtudiant(1L);
+        doNothing().when(iEtudiant).supprimerEtudiant(2L);
 
         // Action & Assertion
-        mockMvc.perform(delete("/supprimer/1")
+        mockMvc.perform(delete("/supprimer/2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(iEtudiant, times(1)).supprimerEtudiant(1L);
+        verify(iEtudiant, times(1)).supprimerEtudiant(2L);
     }
 
     @Test

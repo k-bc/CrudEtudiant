@@ -148,7 +148,7 @@ class EtudiantEdgeCaseTest {
         assertTrue(Etudiant.class.getInterfaces().length > 0);
         boolean isSerializable = false;
         for (Class<?> iface : Etudiant.class.getInterfaces()) {
-            if (iface.getName().equals("java.io.Serializable")) {
+            if (iface.equals(java.io.Serializable.class)) {
                 isSerializable = true;
                 break;
             }
@@ -171,16 +171,16 @@ class EtudiantEdgeCaseTest {
     @Test
     @DisplayName("Modifier un étudiant après création")
     void testModifyAfterCreation() {
-        Etudiant etudiant = new Etudiant(1L, "Original", "User", Option.TWIN);
+        Etudiant modifiableEtudiant = new Etudiant(1L, "Original", "User", Option.TWIN);
 
-        etudiant.setNomEtudiant("Modified");
-        assertEquals("Modified", etudiant.getNomEtudiant());
-        assertEquals(1L, etudiant.getIdEtudiant());
-        assertEquals(Option.TWIN, etudiant.getOpt());
+        modifiableEtudiant.setNomEtudiant("Modified");
+        assertEquals("Modified", modifiableEtudiant.getNomEtudiant());
+        assertEquals(1L, modifiableEtudiant.getIdEtudiant());
+        assertEquals(Option.TWIN, modifiableEtudiant.getOpt());
 
-        etudiant.setOpt(Option.DS);
-        assertEquals("Modified", etudiant.getNomEtudiant());
-        assertEquals(Option.DS, etudiant.getOpt());
+        modifiableEtudiant.setOpt(Option.DS);
+        assertEquals("Modified", modifiableEtudiant.getNomEtudiant());
+        assertEquals(Option.DS, modifiableEtudiant.getOpt());
     }
 
     @Test

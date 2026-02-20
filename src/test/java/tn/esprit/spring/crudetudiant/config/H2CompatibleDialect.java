@@ -1,7 +1,6 @@
 package tn.esprit.spring.crudetudiant.config;
 
 import org.hibernate.dialect.H2Dialect;
-import org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase;
 
 /**
  * Classe pour gérer la compatibilité entre MySQL et H2 dans les tests.

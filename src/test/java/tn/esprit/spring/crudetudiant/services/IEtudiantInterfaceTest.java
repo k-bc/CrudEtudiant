@@ -72,7 +72,7 @@ class IEtudiantInterfaceTest {
         Class<?>[] interfaces = EtudiantServiceImpl.class.getInterfaces();
         boolean implementsInterface = false;
         for (Class<?> iface : interfaces) {
-            if (iface.getName().equals("tn.esprit.spring.crudetudiant.services.IEtudiant")) {
+            if (iface.equals(IEtudiant.class)) {
                 implementsInterface = true;
                 break;
             }

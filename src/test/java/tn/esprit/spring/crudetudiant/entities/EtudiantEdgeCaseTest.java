@@ -126,8 +126,8 @@ class EtudiantEdgeCaseTest {
     @Test
     @DisplayName("ToString avec valeurs null")
     void testToStringWithNullValues() {
-        Etudiant etudiant = new Etudiant(null, null, null, null);
-        String toStringResult = etudiant.toString();
+        Etudiant etudia = new Etudiant(null, null, null, null);
+        String toStringResult = etudia.toString();
         assertNotNull(toStringResult);
         assertFalse(toStringResult.isEmpty());
     }
@@ -135,8 +135,8 @@ class EtudiantEdgeCaseTest {
     @Test
     @DisplayName("ToString avec valeurs complètes")
     void testToStringWithAllValues() {
-        Etudiant etudiant = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
-        String toStringResult = etudiant.toString();
+        Etudiant etudia = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
+        String toStringResult = etudia.toString();
         assertNotNull(toStringResult);
         assertFalse(toStringResult.isEmpty());
         assertTrue(toStringResult.contains("1") || toStringResult.contains("Dupont"));

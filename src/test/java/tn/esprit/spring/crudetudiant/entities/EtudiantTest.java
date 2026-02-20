@@ -29,12 +29,12 @@ class EtudiantTest {
     @Test
     @DisplayName("Creer un etudiant avec le constructeur complet")
     void testEtudiantAllArgsConstructor() {
-        Etudiant etudiant = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
+        Etudiant etudia = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
 
-        assertEquals(1L, etudiant.getIdEtudiant(), "L'ID doit etre 1");
-        assertEquals("Dupont", etudiant.getNomEtudiant(), "Le nom doit etre Dupont");
-        assertEquals("Jean", etudiant.getPrenomEtudiant(), "Le prenom doit etre Jean");
-        assertEquals(Option.TWIN, etudiant.getOpt(), "L'option doit etre TWIN");
+        assertEquals(1L, etudia.getIdEtudiant(), "L'ID doit etre 1");
+        assertEquals("Dupont", etudia.getNomEtudiant(), "Le nom doit etre Dupont");
+        assertEquals("Jean", etudia.getPrenomEtudiant(), "Le prenom doit etre Jean");
+        assertEquals(Option.TWIN, etudia.getOpt(), "L'option doit etre TWIN");
     }
 
     @Test
@@ -127,45 +127,45 @@ class EtudiantTest {
     @Test
     @DisplayName("Tester le getter et setter pour chaque attribut")
     void testAllGettersAndSetters() {
-        Etudiant etudiant = new Etudiant();
+        Etudiant localEtudiant = new Etudiant();
 
         // Tester ID
-        etudiant.setIdEtudiant(10L);
-        assertEquals(10L, etudiant.getIdEtudiant());
+        localEtudiant.setIdEtudiant(10L);
+        assertEquals(10L, localEtudiant.getIdEtudiant());
 
         // Tester Nom
-        etudiant.setNomEtudiant("Durand");
-        assertEquals("Durand", etudiant.getNomEtudiant());
+        localEtudiant.setNomEtudiant("Durand");
+        assertEquals("Durand", localEtudiant.getNomEtudiant());
 
         // Tester Prenom
-        etudiant.setPrenomEtudiant("Marie");
-        assertEquals("Marie", etudiant.getPrenomEtudiant());
+        localEtudiant.setPrenomEtudiant("Marie");
+        assertEquals("Marie", localEtudiant.getPrenomEtudiant());
 
         // Tester Option
-        etudiant.setOpt(Option.SAE);
-        assertEquals(Option.SAE, etudiant.getOpt());
+        localEtudiant.setOpt(Option.SAE);
+        assertEquals(Option.SAE, localEtudiant.getOpt());
     }
 
     @Test
-    @DisplayName("Tester la création avec tous les constructeurs")
+    @DisplayName("Tester la creation avec tous les constructeurs")
     void testAllConstructors() {
         // Constructeur sans arguments
-        Etudiant etudiant1 = new Etudiant();
-        assertNotNull(etudiant1);
+        Etudiant etudia1 = new Etudiant();
+        assertNotNull(etudia1);
 
         // Constructeur avec tous les arguments
-        Etudiant etudiant2 = new Etudiant(1L, "Test", "User", Option.TWIN);
-        assertEquals(1L, etudiant2.getIdEtudiant());
-        assertEquals("Test", etudiant2.getNomEtudiant());
-        assertEquals("User", etudiant2.getPrenomEtudiant());
-        assertEquals(Option.TWIN, etudiant2.getOpt());
+        Etudiant etudia2 = new Etudiant(1L, "Test", "User", Option.TWIN);
+        assertEquals(1L, etudia2.getIdEtudiant());
+        assertEquals("Test", etudia2.getNomEtudiant());
+        assertEquals("User", etudia2.getPrenomEtudiant());
+        assertEquals(Option.TWIN, etudia2.getOpt());
     }
 
     @Test
     @DisplayName("Tester que Etudiant implémente Serializable")
     void testEtudiantSerializable() {
-        Etudiant etudiant = new Etudiant(1L, "Test", "User", Option.TWIN);
-        assertTrue(etudiant instanceof java.io.Serializable,
+        Etudiant localEtudiant = new Etudiant(1L, "Test", "User", Option.TWIN);
+        assertInstanceOf(java.io.Serializable.class, localEtudiant,
                 "L'entité Etudiant doit implémenter Serializable");
     }
 
@@ -193,15 +193,15 @@ class EtudiantTest {
     @Test
     @DisplayName("Tester la comparaison avec null")
     void testEtudiantEqualityWithNull() {
-        Etudiant etudiant = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
-        assertNotEquals(etudiant, null, "Un étudiant ne doit pas être égal à null");
+        Etudiant localEtudiant = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
+        assertNotEquals(null, localEtudiant, "Un étudiant ne doit pas être égal à null");
     }
 
     @Test
     @DisplayName("Tester la comparaison avec un objet d'un autre type")
     void testEtudiantEqualityWithDifferentType() {
-        Etudiant etudiant = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
-        assertNotEquals(etudiant, "String", "Un étudiant ne doit pas être égal à une chaîne");
+        Etudiant localEtudiant = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
+        assertNotEquals("String", localEtudiant, "Un étudiant ne doit pas être égal à une chaîne");
     }
 }
 

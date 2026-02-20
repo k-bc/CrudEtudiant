@@ -31,9 +31,7 @@ class EtudiantEntityTest {
         }, "La classe doit avoir les setters générés par @Setter");
 
         // Vérifier que le constructeur sans arguments existe (généré par @NoArgsConstructor)
-        assertDoesNotThrow(() -> {
-            Etudiant.class.getDeclaredConstructor();
-        }, "La classe doit avoir un constructeur sans arguments");
+        assertDoesNotThrow(() -> Etudiant.class.getDeclaredConstructor(), "La classe doit avoir un constructeur sans arguments");
 
         // Vérifier que le constructeur avec tous les arguments existe (généré par @AllArgsConstructor)
         assertDoesNotThrow(() -> {

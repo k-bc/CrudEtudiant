@@ -1,6 +1,8 @@
 package tn.esprit.spring.crudetudiant.controllers;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.crudetudiant.entities.Etudiant;
 import tn.esprit.spring.crudetudiant.services.IEtudiant;
@@ -11,11 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 public class EtudiantController {
 
+    private static final Logger logger = LoggerFactory.getLogger(EtudiantController.class);
     IEtudiant iEtudiant;
     @GetMapping("/afficherAllEtudiant")
     public List<Etudiant> afficherAllEtudiant(){
         List<Etudiant> etudiants = iEtudiant.afficherEtudiants();
-        System.out.println("✅ SUCCESS: Récupération de tous les étudiants - " + etudiants.size() + " étudiant(s) trouvé(s)");
+        logger.info("✅ SUCCESS: Récupération de tous les étudiants - {} étudiant(s) trouvé(s)", etudiants.size());
         return etudiants;
     }
     @GetMapping("/afficheById/{id}")
@@ -25,7 +28,7 @@ public class EtudiantController {
     @PostMapping("/ajouterEtudiant")
     public Etudiant ajouterEtudiant(@RequestBody  Etudiant e){
         Etudiant etudiantAjoute = iEtudiant.ajouterEtudiant(e);
-        System.out.println("✅ SUCCESS: Étudiant ajouté avec succès - ID: " + etudiantAjoute.getIdEtudiant() + ", Nom: " + etudiantAjoute.getPrenomEtudiant() + " " + etudiantAjoute.getNomEtudiant());
+        logger.info("✅ SUCCESS: Étudiant ajouté avec succès - ID: {}, Nom: {} {}", etudiantAjoute.getIdEtudiant(), etudiantAjoute.getPrenomEtudiant(), etudiantAjoute.getNomEtudiant());
         return etudiantAjoute;
     }
     @PutMapping("/modifierEtudiant")

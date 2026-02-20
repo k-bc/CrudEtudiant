@@ -29,12 +29,12 @@ class EtudiantTest {
     @Test
     @DisplayName("Creer un etudiant avec le constructeur complet")
     void testEtudiantAllArgsConstructor() {
-        Etudiant etudia = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
+        Etudiant etudiantTest = new Etudiant(1L, "Dupont", "Jean", Option.TWIN);
 
-        assertEquals(1L, etudia.getIdEtudiant(), "L'ID doit etre 1");
-        assertEquals("Dupont", etudia.getNomEtudiant(), "Le nom doit etre Dupont");
-        assertEquals("Jean", etudia.getPrenomEtudiant(), "Le prenom doit etre Jean");
-        assertEquals(Option.TWIN, etudia.getOpt(), "L'option doit etre TWIN");
+        assertEquals(1L, etudiantTest.getIdEtudiant(), "L'ID doit etre 1");
+        assertEquals("Dupont", etudiantTest.getNomEtudiant(), "Le nom doit etre Dupont");
+        assertEquals("Jean", etudiantTest.getPrenomEtudiant(), "Le prenom doit etre Jean");
+        assertEquals(Option.TWIN, etudiantTest.getOpt(), "L'option doit etre TWIN");
     }
 
     @Test
@@ -82,9 +82,9 @@ class EtudiantTest {
     @DisplayName("Tester la serialisation de l'entité Etudiant")
     void testEtudiantIsSerializable() {
         // Vérifier que la classe a une implémentation correcte
-        Etudiant etudiant = new Etudiant(1L, "Test", "User", Option.TWIN);
-        assertNotNull(etudiant, "L'objet doit être créé");
-        assertNotNull(etudiant.getIdEtudiant(), "L'ID doit être présent");
+        Etudiant etudiantTemp = new Etudiant(1L, "Test", "User", Option.TWIN);
+        assertNotNull(etudiantTemp, "L'objet doit être créé");
+        assertNotNull(etudiantTemp.getIdEtudiant(), "L'ID doit être présent");
     }
 
     @Test

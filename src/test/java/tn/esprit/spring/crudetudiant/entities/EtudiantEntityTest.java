@@ -31,11 +31,11 @@ class EtudiantEntityTest {
         }, "La classe doit avoir les setters générés par @Setter");
 
         // Vérifier que le constructeur sans arguments existe (généré par @NoArgsConstructor)
-        assertDoesNotThrow(() -> Etudiant.class.getDeclaredConstructor(), "La classe doit avoir un constructeur sans arguments");
+        assertDoesNotThrow(() -> assertNotNull(Etudiant.class.getDeclaredConstructor()), "La classe doit avoir un constructeur sans arguments");
 
         // Vérifier que le constructeur avec tous les arguments existe (généré par @AllArgsConstructor)
         assertDoesNotThrow(() -> {
-            Etudiant.class.getDeclaredConstructor(Long.class, String.class, String.class, Option.class);
+            assertNotNull(Etudiant.class.getDeclaredConstructor(Long.class, String.class, String.class, Option.class));
         }, "La classe doit avoir un constructeur avec tous les arguments");
     }
 

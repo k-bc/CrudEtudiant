@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: tn.esprit.spring.crudetudiant.CrudEtudiantApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.174 s - in tn.esprit.spring.crudetudiant.CrudEtudiantApplicationTests
+Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.733 s - in tn.esprit.spring.crudetudiant.CrudEtudiantApplicationTests

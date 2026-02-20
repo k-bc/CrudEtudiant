@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class IEtudiantTest {
 
     @Test
-    @DisplayName("Vérifier que l'interface IEtudiant contient les méthodes requises")
+    @DisplayName("Vérifier que l'interface IEtudiant contient les méthodes requises ")
     void testInterfaceMethods() {
         // Vérifier que les méthodes existent dans l'interface
         try {
